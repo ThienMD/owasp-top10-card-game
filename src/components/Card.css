@@ -1,0 +1,187 @@
+/* Poker-style Card Component */
+
+.poker-card {
+  width: 120px;
+  height: 168px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 2px solid #dee2e6;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+.poker-card:hover:not(.disabled) {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.poker-card.selected {
+  transform: translateY(-12px);
+  box-shadow: 0 12px 30px rgba(52, 152, 219, 0.5);
+  border-color: #3498db;
+}
+
+.poker-card.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.poker-card.small {
+  width: 80px;
+  height: 112px;
+  font-size: 0.7em;
+}
+
+/* Threat Agent cards - red suits */
+.poker-card.threat_agent {
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+}
+
+/* Defense Control cards - dark suits */
+.poker-card.defense_control {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+}
+
+/* Joker cards */
+.poker-card.joker {
+  background: linear-gradient(135deg, #f5f0ff 0%, #e8e0f5 100%);
+}
+
+/* Card corners */
+.card-corner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px;
+}
+
+.card-corner.top-left {
+  top: 0;
+  left: 0;
+}
+
+.card-corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+
+.card-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--suit-color);
+  line-height: 1;
+}
+
+.card-suit {
+  font-size: 14px;
+  color: var(--suit-color);
+  line-height: 1;
+}
+
+/* Card center content */
+.card-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 8px 24px 8px;
+  text-align: center;
+}
+
+.card-category {
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.card-suit-large {
+  font-size: 32px;
+  color: var(--suit-color);
+  margin-bottom: 4px;
+}
+
+.card-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.poker-card.small .card-value {
+  font-size: 14px;
+}
+
+.poker-card.small .card-suit {
+  font-size: 10px;
+}
+
+.poker-card.small .card-suit-large {
+  font-size: 20px;
+}
+
+.poker-card.small .card-name {
+  font-size: 8px;
+}
+
+.poker-card.small .card-category {
+  font-size: 6px;
+}
+/* Attack Animation */
+@keyframes attackShake {
+  0%, 100% {
+    transform: translateX(0) translateY(0) scale(1);
+  }
+  25% {
+    transform: translateX(-5px) translateY(-5px) scale(1.05);
+  }
+  50% {
+    transform: translateX(5px) translateY(5px) scale(1.08);
+  }
+  75% {
+    transform: translateX(-5px) translateY(-5px) scale(1.05);
+  }
+}
+
+.poker-card.attack-animation {
+  animation: attackShake 0.6s ease-in-out;
+}
+
+/* Defend Animation */
+@keyframes defendGlow {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.8);
+  }
+}
+
+.poker-card.defend-animation {
+  animation: defendGlow 0.6s ease-in-out;
+}
+
+/* Damage Animation */
+@keyframes damagePulse {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(231, 76, 60, 0.9);
+  }
+}
+
+.poker-card.damage-animation {
+  animation: damagePulse 0.6s ease-in-out;
+}

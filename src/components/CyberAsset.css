@@ -1,0 +1,282 @@
+/* CyberAsset Component - Face card representation */
+
+.cyber-asset {
+  width: 100px;
+  height: 140px;
+  border-radius: 10px;
+  cursor: default;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.cyber-asset.clickable {
+  cursor: pointer;
+}
+
+.cyber-asset.clickable:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px #f39c12, 0 8px 25px rgba(243, 156, 18, 0.4);
+}
+
+.cyber-asset.selected {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px #3498db, 0 8px 25px rgba(52, 152, 219, 0.4);
+}
+
+.cyber-asset.destroyed {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Make inner elements not block clicks */
+.asset-facedown,
+.asset-revealed,
+.damage-indicators {
+  pointer-events: none;
+}
+
+/* Facedown (protected) state */
+.asset-facedown {
+  flex: 1;
+  background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+  border: 2px solid #34495e;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.asset-back-pattern {
+  width: 50px;
+  height: 50px;
+  background: repeating-linear-gradient(
+    45deg,
+    #34495e,
+    #34495e 5px,
+    #2c3e50 5px,
+    #2c3e50 10px
+  );
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.asset-back-pattern span {
+  font-size: 24px;
+  color: #7f8c8d;
+}
+
+.asset-label {
+  margin-top: 8px;
+  font-size: 10px;
+  color: #7f8c8d;
+  font-weight: 600;
+}
+
+/* Revealed/Rotated state */
+.asset-revealed {
+  flex: 1;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #adb5bd;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  position: relative;
+}
+
+.asset-revealed.rotated {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border-color: #f39c12;
+}
+
+.cyber-asset.opponent .asset-revealed {
+  background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+  border-color: #e74c3c;
+}
+
+.cyber-asset.opponent .asset-revealed.rotated {
+  background: linear-gradient(135deg, #ffcccc 0%, #ff9999 100%);
+  border-color: #c0392b;
+}
+
+.asset-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.asset-face {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.asset-suit {
+  font-size: 18px;
+}
+
+.cyber-asset.opponent .asset-suit {
+  color: #e74c3c;
+}
+
+.asset-name {
+  font-size: 10px;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.asset-state {
+  font-size: 9px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.asset-state.revealed {
+  background: #3498db;
+  color: white;
+}
+
+.asset-state.rotated {
+  background: #f39c12;
+  color: white;
+}
+
+.asset-state.destroyed {
+  background: #e74c3c;
+  color: white;
+}
+
+/* PWN overlay */
+.pwn-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  padding: 8px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+}
+
+/* Damage indicators */
+.damage-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px;
+}
+
+.damage-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2c3e50;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.damage-dot.active {
+  background: #f39c12;
+  opacity: 1;
+}
+
+.damage-dot.destroyed {
+  background: #e74c3c;
+}
+
+/* Target indicator for clickable assets */
+.target-indicator {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f39c12;
+  color: #000;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: pulse-target 1.5s infinite;
+}
+
+@keyframes pulse-target {
+  0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.7; transform: translateX(-50%) scale(0.95); }
+}
+/* Asset Attack Animation */
+@keyframes assetAttackFlash {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background-color: inherit;
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+    background-color: rgba(231, 76, 60, 0.1);
+  }
+}
+
+.cyber-asset.attack-animation {
+  animation: assetAttackFlash 0.6s ease-in-out;
+}
+
+/* Asset Defend Animation */
+@keyframes assetDefendShield {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(46, 204, 113, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.cyber-asset.defend-animation {
+  animation: assetDefendShield 0.6s ease-in-out;
+}
+
+/* Asset Damage Animation */
+@keyframes assetDamageShake {
+  0%, 100% {
+    transform: translateX(0) translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  25% {
+    transform: translateX(-4px) translateY(-4px);
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+  }
+  50% {
+    transform: translateX(4px) translateY(4px);
+    box-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+  }
+  75% {
+    transform: translateX(-4px) translateY(4px);
+  }
+}
+
+.cyber-asset.damage-animation {
+  animation: assetDamageShake 0.6s ease-in-out;
+}

@@ -1,0 +1,286 @@
+/* Main App Styles */
+
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a14 0%, #1a1a2e 50%, #0a0a14 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.game-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.player-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.player-row .hand {
+  flex: 1;
+  min-width: 0; /* Allow shrinking */
+}
+
+.player-row .game-status {
+  width: 320px;
+  flex: 0 0 320px;
+}
+
+.player-row .action-log {
+  width: 280px;
+  flex: 0 0 280px;
+}
+
+.sidebar-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 320px;
+  flex: 0 0 320px;
+}
+
+.player-row .game-status {
+  border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+  .player-row {
+    flex-direction: column;
+  }
+
+  .player-row .hand,
+  .player-row .game-status,
+  .player-row .action-log {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .sidebar-column {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+}
+
+/* Difficulty & Coin Flip Modals */
+.coin-flip-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.difficulty-modal {
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  border: 3px solid #3498db;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.difficulty-title {
+  font-size: 32px;
+  color: #3498db;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.difficulty-desc {
+  font-size: 14px;
+  color: #95a5a6;
+  margin: 0 0 30px 0;
+}
+
+.difficulty-buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.difficulty-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 30px 40px;
+  background: linear-gradient(180deg, #2c3e50 0%, #1a1a2e 100%);
+  border: 2px solid #34495e;
+  border-radius: 12px;
+  color: #ecf0f1;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.difficulty-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+  border-color: #3498db;
+}
+
+.easy-btn:hover {
+  border-color: #2ecc71;
+  box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+}
+
+.hard-btn:hover {
+  border-color: #e74c3c;
+  box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+}
+
+.brutal-btn:hover {
+  border-color: #f39c12;
+  box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+}
+
+.btn-icon {
+  font-size: 48px;
+}
+
+.btn-label {
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-winrate {
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+.coin-flip-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.coin-flip-coin {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  box-shadow: 0 10px 40px rgba(243, 156, 18, 0.5);
+  animation: coinFlip 2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  color: white;
+  font-weight: bold;
+}
+
+.coin-flip-text {
+  font-size: 18px;
+  color: #ecf0f1;
+  margin: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes coinFlip {
+  0% {
+    transform: rotateY(0deg) rotateX(0deg);
+  }
+  50% {
+    transform: rotateY(360deg) rotateX(180deg);
+  }
+  100% {
+    transform: rotateY(720deg) rotateX(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.game-instructions {
+  background: #16213e;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  border-top: 1px solid #2c3e50;
+}
+
+.instruction-section {
+  max-width: 280px;
+}
+
+.instruction-section h3 {
+  font-size: 12px;
+  color: #3498db;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.instruction-section ol,
+.instruction-section ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 11px;
+  color: #95a5a6;
+  line-height: 1.6;
+}
+
+.instruction-section li {
+  margin-bottom: 2px;
+}
+
+.instruction-section strong {
+  color: #ecf0f1;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .game-instructions {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .instruction-section {
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .instruction-section ol,
+  .instruction-section ul {
+    text-align: left;
+    display: inline-block;
+  }
+}

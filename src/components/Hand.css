@@ -1,0 +1,55 @@
+/* Hand Component Styles */
+
+.hand {
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.hand-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.hand-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hand-count {
+  font-size: 11px;
+  color: #7f8c8d;
+}
+
+.player-hand .hand-label {
+  color: #3498db;
+}
+
+.ai-hand .hand-label {
+  color: #e74c3c;
+}
+
+.hand-cards {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 170px;
+  align-items: center;
+}
+
+.ai-hand .hand-cards {
+  transform: scale(0.75);
+  transform-origin: center;
+  min-height: 130px;
+}
+
+.empty-hand {
+  color: #7f8c8d;
+  font-style: italic;
+  padding: 40px;
+}

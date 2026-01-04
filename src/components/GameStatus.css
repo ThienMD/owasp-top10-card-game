@@ -1,0 +1,197 @@
+/* GameStatus Component Styles */
+
+.game-status {
+  background: linear-gradient(180deg, #16213e 0%, #1a1a2e 100%);
+  border-bottom: 2px solid #2c3e50;
+  padding: 12px 20px;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.game-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #3498db;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(52, 152, 219, 0.3);
+}
+
+.turn-badge {
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.defense-tracker {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  min-width: 160px;
+}
+
+.tracker-label {
+  font-size: 9px;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.tracker-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tracker-you {
+  color: #3498db;
+}
+
+.tracker-ai {
+  color: #e74c3c;
+}
+
+.message-area {
+  flex: 1;
+  text-align: center;
+}
+
+.game-message {
+  font-size: 14px;
+  color: #ecf0f1;
+  font-weight: 500;
+}
+
+.game-message.game-over {
+  font-size: 18px;
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.last-action {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #95a5a6;
+}
+
+.action-actor {
+  color: #f39c12;
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.action-text {
+  color: #ecf0f1;
+  margin-right: 4px;
+}
+
+.action-details {
+  color: #7f8c8d;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  min-width: 200px;
+  justify-content: flex-end;
+}
+
+.btn-attack,
+.btn-secondary,
+.btn-primary {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-attack {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.btn-attack:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+}
+
+.btn-attack:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #34495e;
+  color: #ecf0f1;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #3d566e;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3498db, #2ecc71);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+}
+
+.waiting {
+  color: #f39c12;
+  font-weight: 600;
+  animation: pulse 1s infinite;
+}
+
+.waiting-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-skip {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #2c3e50;
+  color: #ecf0f1;
+  transition: all 0.2s ease;
+}
+
+.btn-skip:hover {
+  background: #34495e;
+  transform: scale(1.05);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
