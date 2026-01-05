@@ -55,7 +55,7 @@ function App() {
     <div className="app">
       {/* Logo at the top */}
       <div className="logo-container" style={{ textAlign: 'center', margin: '24px 0 8px 0' }}>
-        <img src="/images/logo.png" alt="OWASP Card Game Logo" style={{ height: '64px', maxWidth: '90vw' }} />
+        <img src="./images/logo.png" alt="OWASP Card Game Logo" style={{ height: '64px', maxWidth: '90vw' }} />
       </div>
 
       {/* OWASP Info Tooltip */}

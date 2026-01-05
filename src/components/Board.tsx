@@ -65,7 +65,7 @@ export function Board({
               />
               {showAttackArrow && targetAssetId === asset.instanceId && isPlayerAttacking && (
                 <div className="attack-arrow player-attacking">
-                  <img src="/images/attack.png" alt="Attack" className="attack-image" />
+                  <img src="./images/attack.png" alt="Attack" className="attack-image" />
                 </div>
               )}
             </div>
@@ -104,7 +104,7 @@ export function Board({
               />
               {showAttackArrow && targetAssetId === asset.instanceId && !isPlayerAttacking && (
                 <div className="attack-arrow ai-attacking">
-                  <img src="/images/attack.png" alt="Attack" className="attack-image" />
+                  <img src="./images/attack.png" alt="Attack" className="attack-image" />
                 </div>
               )}
             </div>

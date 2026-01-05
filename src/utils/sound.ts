@@ -25,10 +25,10 @@ class SoundManager {
     };
     
     Object.entries(soundMap).forEach(([type, filename]) => {
-      const audio = new Audio(`/sounds/${filename}`);
+      const audio = new Audio(`./sounds/${filename}`);
       audio.preload = 'auto';
       audio.onerror = () => {
-        console.warn(`Sound file not found: /sounds/${filename}`);
+        console.warn(`Sound file not found: sounds/${filename}`);
       };
       audio.oncanplay = () => {
         console.log(`✓ Sound loaded: ${type} (${filename})`);
