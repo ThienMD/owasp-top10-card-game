@@ -1,3 +1,15 @@
+[![Build Status](https://github.com/ThienMD/owasp-top10-card-game/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ThienMD/owasp-top10-card-game/actions/workflows/ci.yml)
+
+[![GitHub Pages](https://img.shields.io/badge/Play%20Now-GitHub%20Pages-blue?logo=github)](https://thienmd.github.io/owasp-top10-card-game/)
+
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/screenshot-1.png" alt="OWASP Card Game Screenshot 1" width="600" />
+  <br/>
+  <img src="screenshots/screenshot-2.png" alt="OWASP Card Game Screenshot 2" width="600" />
+</p>
+
 # OWASP Top Ten Card Game
 
 An educational card game based on the **official OWASP Top Ten Card Game rules**. Learn about web security vulnerabilities and defenses while playing against a rule-based AI opponent.
