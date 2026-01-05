@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "fix"
+    allow:
+      - dependency-type: "all"
+    ignore:
+      - dependency-name: "react-scripts"
+    labels:
+      - "dependencies"
+      - "security"
+    reviewers:
+      - "your-github-username"

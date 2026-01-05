@@ -53,6 +53,11 @@ function App() {
 
   return (
     <div className="app">
+      {/* Logo at the top */}
+      <div className="logo-container" style={{ textAlign: 'center', margin: '24px 0 8px 0' }}>
+        <img src="/images/logo.png" alt="OWASP Card Game Logo" style={{ height: '64px', maxWidth: '90vw' }} />
+      </div>
+
       {/* OWASP Info Tooltip */}
       <Tooltip info={gameState.showOwaspInfo} />
 
@@ -102,82 +107,91 @@ function App() {
         </div>
       )}
 
-      <div className="game-container">
-        {/* AI's Hand (small, top) */}
-        <Hand
-          taCards={gameState.ai.taHand}
-          dcCards={gameState.ai.dcHand}
-          selectedCard={null}
-          onSelectCard={() => {}}
-          isPlayer={false}
-          disabled={true}
-        />
+      <div className="app-layout">
+        {/* Left: Rules */}
+        <aside className="left-panel">
+          <div className="rules-panel">
+            <div className="instruction-section">
+              <h3>How to Play</h3>
+              <ol>
+                <li>Select a <strong>Threat Agent</strong> card (red suit) from your hand</li>
+                <li>Click an AI <strong>cyber asset</strong> to target</li>
+                <li>Click <strong>Attack!</strong> to execute</li>
+                <li>Defense requires matching card value (e.g., 5♥ blocks with 5♠)</li>
+              </ol>
+            </div>
+            <div className="instruction-section">
+              <h3>Win Conditions</h3>
+              <ul>
+                <li><strong>Breach 2 of 3</strong> opponent assets (3 hits each)</li>
+                <li>Or opponent <strong>defends 6 times</strong> successfully</li>
+              </ul>
+            </div>
+            <div className="instruction-section">
+              <h3>Attack Phases</h3>
+              <ul>
+                <li><strong>Observation</strong>: Reveals face-down asset</li>
+                <li><strong>Assessment</strong>: Rotates revealed asset</li>
+                <li><strong>PWN</strong>: Destroys rotated asset</li>
+              </ul>
+            </div>
+          </div>
+        </aside>
 
-        {/* Game Board with Cyber Assets */}
-        <Board
-          playerAssets={gameState.player.assets}
-          aiAssets={gameState.ai.assets}
-          selectedAsset={gameState.selectedAsset}
-          onSelectAsset={selectAsset}
-          isPlayerAttacking={isPlayerTurn && !isGameOver}
-          animation={gameState.animation}
-          attackState={gameState.attackState}
-        />
+        {/* Center: Game */}
+        <main className="center-panel">
+          <div className="game-container">
+            {/* AI's Hand (small, top) */}
+            <Hand
+              taCards={gameState.ai.taHand}
+              dcCards={gameState.ai.dcHand}
+              selectedCard={null}
+              onSelectCard={() => {}}
+              isPlayer={false}
+              disabled={true}
+            />
 
-        <div >
-          {/* Player's Attack Hand */}
-          <Hand
-            taCards={gameState.player.taHand}
-            dcCards={gameState.player.dcHand}
-            selectedCard={gameState.selectedCard}
-            onSelectCard={selectCard}
-            isPlayer={true}
-            showDefense={false}
-            disabled={!isPlayerTurn || isProcessing || isGameOver}
-          />
+            {/* Game Board with Cyber Assets */}
+            <Board
+              playerAssets={gameState.player.assets}
+              aiAssets={gameState.ai.assets}
+              selectedAsset={gameState.selectedAsset}
+              onSelectAsset={selectAsset}
+              isPlayerAttacking={isPlayerTurn && !isGameOver}
+              animation={gameState.animation}
+              attackState={gameState.attackState}
+            />
 
-          {/* Status / Actions beside player's hand */}
-          <GameStatus
-            gameState={gameState}
-            onRestart={resetGame}
-            onEndTurn={endTurn}
-            onAttack={playerAttack}
-            canAttack={canAttack}
-            isProcessing={isProcessing}
-            onSkipAI={requestSkipAI}
-          />
+            <div >
+              {/* Player's Attack Hand */}
+              <Hand
+                taCards={gameState.player.taHand}
+                dcCards={gameState.player.dcHand}
+                selectedCard={gameState.selectedCard}
+                onSelectCard={selectCard}
+                isPlayer={true}
+                showDefense={false}
+                disabled={!isPlayerTurn || isProcessing || isGameOver}
+              />
 
-          {/* Action Log on the right side */}
+              {/* Status / Actions beside player's hand */}
+              <GameStatus
+                gameState={gameState}
+                onRestart={resetGame}
+                onEndTurn={endTurn}
+                onAttack={playerAttack}
+                canAttack={canAttack}
+                isProcessing={isProcessing}
+                onSkipAI={requestSkipAI}
+              />
+            </div>
+          </div>
+        </main>
+
+        {/* Right: Action Log */}
+        <aside className="right-panel">
           <ActionLog actions={gameState.actionLog || []} />
-        </div>
-      </div>
-
-      {/* Instructions */}
-      <div className="game-instructions">
-        <div className="instruction-section">
-          <h3>How to Play</h3>
-          <ol>
-            <li>Select a <strong>Threat Agent</strong> card (red suit) from your hand</li>
-            <li>Click an AI <strong>cyber asset</strong> to target</li>
-            <li>Click <strong>Attack!</strong> to execute</li>
-            <li>Defense requires matching card value (e.g., 5♥ blocks with 5♠)</li>
-          </ol>
-        </div>
-        <div className="instruction-section">
-          <h3>Win Conditions</h3>
-          <ul>
-            <li><strong>Breach 2 of 3</strong> opponent assets (3 hits each)</li>
-            <li>Or opponent <strong>defends 6 times</strong> successfully</li>
-          </ul>
-        </div>
-        <div className="instruction-section">
-          <h3>Attack Phases</h3>
-          <ul>
-            <li><strong>Observation</strong>: Reveals face-down asset</li>
-            <li><strong>Assessment</strong>: Rotates revealed asset</li>
-            <li><strong>PWN</strong>: Destroys rotated asset</li>
-          </ul>
-        </div>
+        </aside>
       </div>
     </div>
   );

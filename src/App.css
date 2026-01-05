@@ -7,14 +7,35 @@
   flex-direction: column;
 }
 
-.game-container {
+.app-layout {
   flex: 1;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr) 340px;
+  gap: 12px;
+  padding: 12px;
+  align-items: start;
+}
+
+.left-panel,
+.right-panel {
+  min-width: 0;
+}
+
+.center-panel {
+  min-width: 0;
+}
+
+.rules-panel {
+  background: #16213e;
+  border: 2px solid #2c3e50;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.game-container {
   display: flex;
   flex-direction: column;
-  padding: 12px;
   gap: 12px;
-  max-width: 1100px;
-  margin: 0 auto;
   width: 100%;
 }
 
@@ -34,11 +55,6 @@
   flex: 0 0 320px;
 }
 
-.player-row .action-log {
-  width: 280px;
-  flex: 0 0 280px;
-}
-
 .sidebar-column {
   display: flex;
   flex-direction: column;
@@ -52,13 +68,25 @@
 }
 
 @media (max-width: 900px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .left-panel,
+  .right-panel {
+    order: 2;
+  }
+
+  .center-panel {
+    order: 1;
+  }
+
   .player-row {
     flex-direction: column;
   }
 
   .player-row .hand,
-  .player-row .game-status,
-  .player-row .action-log {
+  .player-row .game-status {
     width: 100%;
     flex: 0 0 auto;
   }

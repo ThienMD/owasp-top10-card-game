@@ -14,6 +14,7 @@ import {
   OwaspInfo,
   ThreatAgentCard,
   DefenseControlCard,
+  JokerCard,
   AnimationType,
   GameAction,
 } from '../types';
@@ -162,6 +163,64 @@ export function useGameState() {
     };
   }, []);
 
+  const summarizeOwasp = useCallback((text: string, maxLen = 140) => {
+    const trimmed = text.trim();
+    if (trimmed.length <= maxLen) return trimmed;
+    return `${trimmed.slice(0, maxLen).trim()}…`;
+  }, []);
+
+  const explainStage = useCallback((state: AssetState) => {
+    if (state === 'facedown') return 'Stage: Observation (reveals a face-down asset)';
+    if (state === 'revealed') return 'Stage: Assessment (rotates a revealed asset)';
+    return 'Stage: PWN (destroys a rotated asset)';
+  }, []);
+
+  const formatAttackDetails = useCallback((attackCard: HandCard, targetName: string, targetState: AssetState) => {
+    const stageLine = explainStage(targetState);
+
+    if (attackCard.card.category === 'threat_agent') {
+      const ta = attackCard.card as ThreatAgentCard;
+      return [
+        `Target: ${targetName}`,
+        `${stageLine}`,
+        `OWASP Risk: ${ta.owaspRisk.id} — ${ta.owaspRisk.name}`,
+        `Why this threat matters: ${summarizeOwasp(ta.owaspRisk.description)}`,
+      ].join('\n');
+    }
+
+    const joker = attackCard.card as JokerCard;
+    return [
+      `Target: ${targetName}`,
+      `${stageLine}`,
+      `Wildcard Attack: Joker (${joker.jokerType})`,
+      'Why it works: Wildcard attack (rule-based).',
+    ].join('\n');
+  }, [explainStage, summarizeOwasp]);
+
+  const formatDefenseDetails = useCallback((defenseCard: PlayableCard, attackCard: PlayableCard, targetName: string) => {
+    const whyLine = defenseCard.category === 'joker'
+      ? 'Why it blocked: Joker is a wildcard defense.'
+      : (defenseCard.category === 'defense_control' && attackCard.category === 'threat_agent')
+        ? `Why it blocked: Matching value (${defenseCard.value} blocks ${attackCard.value}).`
+        : 'Why it blocked: Rule match.';
+
+    if (defenseCard.category === 'defense_control') {
+      const dc = defenseCard as DefenseControlCard;
+      return [
+        `Protected: ${targetName}`,
+        `OWASP Control: ${dc.owaspControl.id} — ${dc.owaspControl.name}`,
+        `How this control helps: ${summarizeOwasp(dc.owaspControl.description)}`,
+        whyLine,
+      ].join('\n');
+    }
+
+    return [
+      `Protected: ${targetName}`,
+      'OWASP Control: Joker (Wildcard Defense)',
+      whyLine,
+    ].join('\n');
+  }, [summarizeOwasp]);
+
   const requestSkipAI = useCallback(() => {
     skipAIRef.current = true;
   }, []);
@@ -304,7 +363,7 @@ export function useGameState() {
     newState = addLogToState(newState, {
       actor: 'player',
       action: 'Attack',
-      details: `${attackCard.card.category === 'threat_agent' ? (attackCard.card as ThreatAgentCard).owaspRisk.name : 'Joker'} → ${targetAsset.card.assetName}`,
+      details: formatAttackDetails(attackCard, targetAsset.card.assetName, targetAsset.state),
     });
 
     setGameState(newState);
@@ -346,8 +405,16 @@ export function useGameState() {
       newState.dcDeck = dcDeck1;
 
       newState.message = `AI defended! Attack blocked.`;
-      newState = addLogToState(newState, { actor: 'ai', action: 'Defended', details: aiDecision.reasoning });
-      newState = addLogToState(newState, { actor: 'player', action: 'Attack Blocked', details: `Your attack on ${targetAsset.card.assetName} was blocked.` });
+      newState = addLogToState(newState, {
+        actor: 'ai',
+        action: 'Defended',
+        details: formatDefenseDetails(defenseCard.card, attackCard.card, targetAsset.card.assetName),
+      });
+      newState = addLogToState(newState, {
+        actor: 'player',
+        action: 'Attack Blocked',
+        details: `Outcome: Blocked\n${formatDefenseDetails(defenseCard.card, attackCard.card, targetAsset.card.assetName)}`,
+      });
       newState.phase = 'attack_phase';
       newState.attackState = null;
       newState.animation = 'defend';
@@ -369,7 +436,11 @@ export function useGameState() {
                         newAssetState === 'rotated' ? 'ASSESSED' : 'PWN\'d!';
 
         newState.message = `Attack hit! ${targetAsset.card.assetName} is now ${stateMsg}`;
-        newState = addLogToState(newState, { actor: 'player', action: 'Attack Hit', details: `${targetAsset.card.assetName} → ${stateMsg}` });
+        newState = addLogToState(newState, {
+          actor: 'player',
+          action: 'Attack Hit',
+          details: `Outcome: ${stateMsg}\n${formatAttackDetails(attackCard, targetAsset.card.assetName, targetAsset.state)}`,
+        });
       }
 
       newState.player.taHand = newState.player.taHand.filter(c => c.instanceId !== attackCard.instanceId);
@@ -394,7 +465,7 @@ export function useGameState() {
     setAnimation('none');
     showOwaspInfo(null);
     setIsProcessing(false);
-  }, [addLogToState, delayWithSkip, gameState, getWinReason, isProcessing, playSound, showOwaspInfo, setAnimation]);
+  }, [addLogToState, delayWithSkip, formatAttackDetails, formatDefenseDetails, gameState, getWinReason, isProcessing, playSound, showOwaspInfo, setAnimation]);
 
   const endTurn = useCallback(async () => {
     if (isProcessing) return;
@@ -477,7 +548,11 @@ export function useGameState() {
       }
 
       newState.message = `AI attacks your ${target.card.assetName}!`;
-      newState = addLogToState(newState, { actor: 'ai', action: 'Attack', details: `${attackDecision.reasoning} → ${target.card.assetName}` });
+      newState = addLogToState(newState, {
+        actor: 'ai',
+        action: 'Attack',
+        details: `${attackDecision.reasoning}\n${formatAttackDetails(attackCard, target.card.assetName, target.state)}`,
+      });
       setGameState({ ...newState });
       await delayWithSkip(1200);
 
@@ -507,7 +582,7 @@ export function useGameState() {
         newState = addLogToState(newState, {
           actor: 'player',
           action: 'Defended',
-          details: `Blocked AI attack on ${target.card.assetName}`,
+          details: formatDefenseDetails(playerDefense.card, attackCard.card, target.card.assetName),
         });
 
         continueAttacking = false;
@@ -531,7 +606,7 @@ export function useGameState() {
           newState = addLogToState(newState, {
             actor: 'ai',
             action: 'Attack Hit',
-            details: `${target.card.assetName} → ${stateMsg}`,
+            details: `Outcome: ${stateMsg}\n${formatAttackDetails(attackCard, target.card.assetName, target.state)}`,
           });
         }
 
